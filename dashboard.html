@@ -1,0 +1,257 @@
+<!--dashboard-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #2CA8A5, #3C91E6);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            padding-top: 100px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .total_expense_card {
+            background-color: #e7f7f4;
+            color: #01120f;
+            margin-top:50px;
+        }
+        .add_transaction_card {
+            background-color: #54cdb6;
+            color: #01120f;
+            font-size: 24px;
+            font-weight:500;
+            border-radius:15px;
+        }
+        .view_visualisation_card {
+            background-color: #a573e9;
+            color: #01120f;
+            font-size: 24px;
+            font-weight:500;
+            border-radius:15px;
+        }
+
+        .expense_amt {
+            font-weight: 600;
+        }
+        .navbar {
+            position: fixed;
+            font-family: 'Poppins';
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-5">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">TrackMySpend</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container dashboard-container">
+        <div class="d-flex flex-row justify-content-end">
+            
+        </div>
+        <h1 class="text-center mb-4">Dashboard</h1>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <!-- Total Expense and Buttons -->
+                    <div class="d-flex flex-column gap-3">
+                        <a class="card total_expense_card w-100">
+                            <div class="card-header" style="background-color: #E7F7F4; color: #01120F;">Total Expense</div>
+                            <div class="card-body">
+                                <h5 class="card-title expense_amt" style="font-size: 22px; font-weight: 700; color: #FF6347;">₹{{ total_expense }}</h5>
+                            </div>
+                        </a>
+
+                          <!-- Wallet Balance Display -->
+                          <div class="card shadow p-3 mb-2 mt-1" style="background-color: #FFEB3B;">
+                            <h5 class="text-center">💼 Current Wallet Balance: ₹{{ wallet_balance }}</h5>
+                        </div>
+                        
+                        <!-- Wallet Action Form -->
+                        <div class="card shadow p-3 mb-2">
+                            <form method="POST" action="{{ url_for('update_wallet') }}">
+                                <div class="row align-items-end" style="border-radius: 15px; padding: 20px; ">
+                                    <!-- Action Selector -->
+                                    <div class="col-md-4 mb-2">
+                                        <label for="wallet_action" class="form-label">Select Action:</label>
+                                        <select class="form-select" id="wallet_action" name="action" style="border-radius: 8px; font-size: 16px; padding: 10px; background-color: #f8f9fa;">
+                                            <option value="edit">✏️ Edit Wallet</option>
+                                            <option value="add">➕ Add to Wallet</option>
+                                        </select>
+                                    </div>
+                        
+                                    <!-- Amount Input -->
+                                    <div class="col-md-4 mb-2">
+                                        <label for="wallet_amount" class="form-label">Wallet Amount:</label>
+                                        <input
+                                            type="number"
+                                            step="10.00"
+                                            min="0"
+                                            class="form-control"
+                                            id="wallet_amount"
+                                            name="amount"
+                                            placeholder="Enter amount"
+                                            required
+                                            style="border-radius: 8px; font-size: 16px; padding: 10px; background-color: #f8f9fa;"
+                                        >
+                                    </div>
+                        
+                                    <!-- Submit Button -->
+                                    <div class="col-md-4 mb-2">
+                                        <button type="submit" class="btn w-100 btn-primary" id="wallet_submit_btn" style="background-color: #54cdb6; border-width: 0px; border-radius: 8px; font-weight: 600; padding: 7px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                            Update Wallet
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="d-flex flex-column flex-sm-row justify-content-between">
+                            <a href="{{ url_for('index') }}" class="btn add_transaction_card shadow p-4 m-1">Add Transaction</a>
+                            <a href="{{ url_for('visualization') }}" class="btn view_visualisation_card shadow p-4 m-1">View Visualization</a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+                    <!-- Pie Chart -->
+                    <div class="card pt-4 pb-4 h-85">
+                        <div>
+                            <h4 class="text-center">Expense Breakdown</h4>
+                            <canvas id="expensePieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- Recent Transactions -->
+        <div class="card p-4 mt-5">
+            <h4 class="text-center">Recent Transactions</h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTransactions"></tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        // Fetch transactions data from the API
+        fetch("{{ url_for('get_transactions') }}")
+            .then(response => response.json())
+            .then(data => {
+                updatePieChart(data);
+                updateRecentTransactions(data);
+            });
+
+        function updatePieChart(data) {
+            let categories = {};
+            data.forEach(txn => {
+                categories[txn.category] = (categories[txn.category] || 0) + txn.amount;
+            });
+
+            let ctx = document.getElementById("expensePieChart").getContext("2d");
+            new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(categories),
+                    datasets: [{
+                        data: Object.values(categories),
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50", "#9C27B0"]
+                    }]
+                }
+            });
+        }
+
+        function updateRecentTransactions(data) {
+            let recentTxns = data.slice(-5).reverse();
+            let tableBody = document.getElementById("recentTransactions");
+            recentTxns.forEach(txn => {
+                let row = `<tr>
+                    <td>${txn.category}</td>
+                    <td>${txn.amount}</td>
+                    <td>${txn.category}</td>
+                    <td>${txn.date}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        const actionSelect = document.getElementById('wallet_action');
+        const amountInput = document.getElementById('wallet_amount');
+        const amountLabel = document.querySelector('label[for="wallet_amount"]');
+        const submitBtn = document.getElementById('wallet_submit_btn');
+
+        function updateUI() {
+            if (actionSelect.value === 'edit') {
+            amountInput.placeholder = "Enter new wallet balance";
+            amountLabel.innerText = "New Balance:";
+            submitBtn.innerText = "✏️ Update Wallet";
+            submitBtn.className = "btn w-100 btn-primary";
+            } else {
+            amountInput.placeholder = "Enter amount to add";
+            amountLabel.innerText = "Amount to Add:";
+            submitBtn.innerText = "➕ Add to Wallet";
+            submitBtn.className = "btn w-100 btn-success";
+            }
+        }
+
+        actionSelect.addEventListener('change', updateUI);
+        window.onload = updateUI;
+
+
+
+    </script>
+</body>
+
+</html>

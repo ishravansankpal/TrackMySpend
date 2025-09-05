@@ -1,0 +1,190 @@
+<!--homepage-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TrackMySpend | Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Rufina:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar-brand {
+            font-family: 'Rufina', serif;
+            font-size: 1.7rem;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #2CA8A5, #3C91E6);
+            color: white;
+            padding: 80px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Rufina', serif;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+        }
+
+        .btn-primary {
+            background-color: #0A2540;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #062136;
+        }
+
+        .section-title {
+            border-left: 5px solid #3C91E6;
+            padding-left: 10px;
+            margin-bottom: 20px;
+            font-family: 'Rufina', serif;
+        }
+
+        footer {
+            background-color: #0A2540;
+            color: #ccc;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">TrackMySpend</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#faq">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-success ms-2" href="{{ url_for('register') }}">Get Started</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="container hero d-flex align-items-center justify-content-center text-center mt-5" style="min-height: 70vh;">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1>Welcome to TrackMySpend</h1>
+            <p class="lead mt-3">Track your expenses effortlessly and stay in control of your finances.</p>
+            <a class="btn btn-primary btn-lg mt-3" href="{{ url_for('register') }}">Start Tracking Now</a>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="container mt-5" id="about">
+    <h2 class="section-title">About Us</h2>
+    <p>TrackMySpend is your personal finance tracker. Whether it's groceries, bills, or shopping, we help you log and analyze expenses with ease. Start building better spending habits today!</p>
+</div>
+
+<!-- FAQ Section -->
+<div class="container mt-5 mb-5" id="faq">
+    <h2 class="section-title">FAQ</h2>
+    <div class="accordion" id="faqAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                    How do I register?
+                </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Click the "Get Started" button on the top-right or in the Hero section to create your free account.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                    Is my data safe?
+                </button>
+            </h2>
+            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Absolutely! We use encryption and follow industry best practices to keep your data secure.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                    Can I download my spending report?
+                </button>
+            </h2>
+            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes, you can export your spending report as a PDF or CSV file from your dashboard.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq4">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                    Is TrackMySpend free to use?
+                </button>
+            </h2>
+            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes! TrackMySpend offers core features for free. Premium features may be available in future versions.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="faq5">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                    Can I use this on mobile?
+                </button>
+            </h2>
+            <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes, our web app is mobile-friendly and works smoothly on smartphones and tablets.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        &copy; 2025 TrackMySpend. All rights reserved.
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
